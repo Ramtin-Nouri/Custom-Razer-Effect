@@ -1,3 +1,4 @@
+"""Open and read config.json"""
 import json
 import os
 

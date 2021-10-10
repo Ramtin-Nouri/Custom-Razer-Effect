@@ -1,5 +1,3 @@
-# TODO: Media Buttons
-
 from threading import Thread
 import time
 import numpy as np
@@ -9,6 +7,8 @@ from key import Key
 from pynput.keyboard import  Listener
 from openrazer.client import DeviceManager
 
+# Get the device
+# Assuming the first device is the keyboard (because I only have one)
 device_manager = DeviceManager()
 device = device_manager.devices[0]
 if not device.fx.advanced:
@@ -24,8 +24,10 @@ keys = []
 
 
 def getKeyMapping(key):
+    """Returns the corresponding LED in the matrix of a key."""
     try:
         if hasattr(key, 'vk') and not key.vk:
+            #Check if it is a Numpad key
             return KEY_MAPPING[F"Numpad-{key.char}"]
         else:
             return KEY_MAPPING[str(key).lower()]
@@ -33,17 +35,23 @@ def getKeyMapping(key):
         print(F"Error key {key} not found returning (0,1)")
         return (0,1)
 
-def reactivePress(key):
+def onPress(key):
+    """On key press callback. Set the color to the reactive."""
     xy = getKeyMapping(key)
     keys[xy[0]][xy[1]].setReact()
     update()
 
-def reactiveRelease(key):
+def onRelease(key):
+    """
+    On key release callback. 
+
+    Start the animation to smoothly turn back to the static/background color.
+    """
     xy = getKeyMapping(key)
     keys[xy[0]][xy[1]].setAnimation() 
 
 def init():
-    # Set static colors for each zone
+    """Set static/background colors for all keys"""
     rows, cols = device.fx.advanced.rows, device.fx.advanced.cols
 
     for row in range(rows):
@@ -54,6 +62,7 @@ def init():
         keys.append(rows)
 
 def update():
+    """Updates the hardware"""
     device.fx.advanced.draw()
 
 if __name__ == "__main__":
@@ -62,6 +71,6 @@ if __name__ == "__main__":
 
     # Collect events until released
     with Listener(
-            on_press=reactivePress,
-            on_release=reactiveRelease) as listener:
+            on_press=onPress,
+            on_release=onRelease) as listener:
         listener.join()
