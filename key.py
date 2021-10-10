@@ -1,7 +1,7 @@
 from threading import Thread, Event
 import time
 import numpy as np
-from .getConfig import *
+from getConfig import *
 
 class Key(Thread):
     def __init__(self,x,y,matrix,updateFunc):

@@ -3,8 +3,8 @@
 from threading import Thread
 import time
 import numpy as np
-from .getConfig import *
-from .key import Key
+from getConfig import *
+from key import Key
 
 from pynput.keyboard import  Listener
 from openrazer.client import DeviceManager
