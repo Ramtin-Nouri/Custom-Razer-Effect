@@ -20,6 +20,8 @@ class Key(Thread):
         y: int
         _startSignal: Event
             Thread will wail for this event to start the animation
+        isRunning: bool
+            Whether the animation is currently ongoing
 
     """
     def __init__(self,x,y,matrix,updateFunc):
@@ -29,6 +31,7 @@ class Key(Thread):
         self.update = updateFunc
         self.x = x
         self.y = y
+        self.isRunning = False
         self.setStatic()
         self._startSignal = Event()
         self.start()
@@ -42,7 +45,7 @@ class Key(Thread):
         while True:
             self._startSignal.wait()
             self._startSignal.clear()
-
+            self.isRunning = True
             self.startTime = time.time()
             while time.time()-self.startTime < REACTIVE_TIME:
                 time.sleep(.1)# sleep so we don't execute too often and exhaust resources
@@ -53,6 +56,7 @@ class Key(Thread):
                 self.matrix[self.x,self.y] = list(smoothColor)
                 self.update()
 
+            self.isRunning = False
             self.matrix[self.x,self.y] = COLOR_BG
             self.update()
         
@@ -66,6 +70,8 @@ class Key(Thread):
         self.matrix[self.x, self.y] = COLOR_REACT
 
     def setAnimation(self):
-        """start/reset the animation"""
-        self.startTime = time.time()
-        self._startSignal.set()
+        """start or reset the animation"""
+        if self.isRunning:
+            self.startTime = time.time()
+        else:
+            self._startSignal.set()
