@@ -4,7 +4,7 @@ Custom Razer Keyboard Effect using OpenRazer.
 Something like the **Static + Reactive** effect but the Reactive is more smooth.
 
 # About
-I really missed the feature of [Polychromatic](https://polychromatic.app/) being able to stack multiple effects on top of each other like Razer Synapse in windows. Then I did some quick search and stumbled upon [this script by bluzukk](https://gist.github.com/bluzukk/2f5ce1d21bcafbf6dd70d0b8f95a30f1), which basically . I really liked the idea of having a complete custom approach because what now I could also add the ***Reactive smoothing out*** instead of popping back to normal. This setting isn't even possible in windows. So here we are.
+I really missed the feature of [Polychromatic](https://polychromatic.app/) being able to stack multiple effects on top of each other like Razer Synapse in windows. Then I did some quick search and stumbled upon [this script by bluzukk](https://gist.github.com/bluzukk/2f5ce1d21bcafbf6dd70d0b8f95a30f1), which basically implements a reactive effect on top of a static layer. I really liked the idea of having a complete custom approach because what now I could also add the ***Reactive smoothing out*** instead of popping back to normal. This setting isn't even possible in windows. So here we are.
 
 # Prerequisites
 - Python3 and pip
